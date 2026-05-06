@@ -21,6 +21,10 @@ func main() {
 	server := mcp.NewServer(client)
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("telegram-public-mcp\n"))
+	})
 	mux.Handle("/mcp", server)
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
