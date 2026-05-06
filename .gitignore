@@ -1,4 +1,5 @@
 .DS_Store
+.env
 /telegram-public-mcp
 /bin/
 /dist/
