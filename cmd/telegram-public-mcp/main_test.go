@@ -25,6 +25,22 @@ func TestBuildHandlerRateLimitsMCPButNotHealth(t *testing.T) {
 	}
 }
 
+func TestBuildHandlerRoutesRootPOSTToMCP(t *testing.T) {
+	handler := buildHandler(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte(`{"jsonrpc":"2.0","id":1,"result":{}}`))
+	}))
+
+	resp := serve(handler, http.MethodPost, "/")
+	if resp.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", resp.Code)
+	}
+	if got := resp.Header().Get("Content-Type"); got != "application/json" {
+		t.Fatalf("Content-Type = %q, want application/json", got)
+	}
+}
+
 func serve(handler http.Handler, method, path string) *httptest.ResponseRecorder {
 	req := httptest.NewRequest(method, path, nil)
 	req.RemoteAddr = "203.0.113.1:12345"

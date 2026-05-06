@@ -27,16 +27,22 @@ func main() {
 }
 
 func buildHandler(mcpHandler http.Handler) http.Handler {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte("telegram-public-mcp\n"))
-	})
-	mux.Handle("/mcp", ratelimit.New(ratelimit.Config{
+	limitedMCP := ratelimit.New(ratelimit.Config{
 		GlobalLimit: envInt("GLOBAL_RATE_LIMIT_PER_MINUTE", 100),
 		IPLimit:     envInt("IP_RATE_LIMIT_PER_MINUTE", 35),
 		Window:      time.Minute,
-	}).Wrap(mcpHandler))
+	}).Wrap(mcpHandler)
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			limitedMCP.ServeHTTP(w, r)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("telegram-public-mcp\n"))
+	})
+	mux.Handle("/mcp", limitedMCP)
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("ok\n"))
