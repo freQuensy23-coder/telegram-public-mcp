@@ -1,0 +1,5 @@
+.DS_Store
+/telegram-public-mcp
+/bin/
+/dist/
+/coverage.out
