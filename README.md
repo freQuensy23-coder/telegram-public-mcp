@@ -22,6 +22,8 @@ Environment variables:
 
 - `ADDR`: HTTP listen address, default `:8080`.
 - `TELEGRAM_BASE_URL`: Telegram base URL, default `https://t.me`. Mostly useful for tests.
+- `GLOBAL_RATE_LIMIT_PER_MINUTE`: global `/mcp` request limit across all clients, default `100`.
+- `IP_RATE_LIMIT_PER_MINUTE`: `/mcp` request limit for one client IP, default `35`.
 
 ## MCP Endpoint
 
