@@ -33,6 +33,18 @@ The MCP endpoint is:
 POST http://localhost:8080/mcp
 ```
 
+Public Coolify deployment:
+
+```text
+http://jg884wsc4gw8ccgg0kc88coc.167.235.18.16.sslip.io/
+```
+
+Codex setup:
+
+```bash
+codex mcp add telegram --url http://jg884wsc4gw8ccgg0kc88coc.167.235.18.16.sslip.io/
+```
+
 It uses JSON-RPC over Streamable HTTP. The implementation supports:
 
 - `initialize`
