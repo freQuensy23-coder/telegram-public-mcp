@@ -36,13 +36,13 @@ POST http://localhost:8080/mcp
 Public Coolify deployment:
 
 ```text
-http://jg884wsc4gw8ccgg0kc88coc.167.235.18.16.sslip.io/
+https://api.fstr.cc/telegram-public-mcp/mcp
 ```
 
 Codex setup:
 
 ```bash
-codex mcp add telegram --url http://jg884wsc4gw8ccgg0kc88coc.167.235.18.16.sslip.io/
+codex mcp add telegram-public --url https://api.fstr.cc/telegram-public-mcp/mcp
 ```
 
 It uses JSON-RPC over Streamable HTTP. The implementation supports:
